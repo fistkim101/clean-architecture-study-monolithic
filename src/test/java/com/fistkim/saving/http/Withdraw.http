@@ -1,2 +1,2 @@
-PUT http://localhost:8080/account/1/withdraw/500
+PUT http://localhost:8080/account/2/withdraw/700
 Content-Type: application/json
