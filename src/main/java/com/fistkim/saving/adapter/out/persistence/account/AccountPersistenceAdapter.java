@@ -1,6 +1,6 @@
 package com.fistkim.saving.adapter.out.persistence.account;
 
-import com.fistkim.saving.adapter.out.persistence.account.mapper.AccountInfraMapper;
+import com.fistkim.saving.application.mapper.AccountMapper;
 import com.fistkim.saving.application.port.out.command.CloseAccountPort;
 import com.fistkim.saving.application.port.out.command.OpenAccountPort;
 import com.fistkim.saving.application.port.out.command.UpdateAccountBalancePort;
@@ -16,7 +16,7 @@ public class AccountPersistenceAdapter implements CloseAccountPort, OpenAccountP
 
     private final AccountJpaRepository accountJpaRepository;
 
-    private final AccountInfraMapper accountInfraMapper;
+    private final AccountMapper accountMapper;
 
     @Override
     public void closeAccount(Long accountId) {
@@ -27,9 +27,9 @@ public class AccountPersistenceAdapter implements CloseAccountPort, OpenAccountP
 
     @Override
     public Account openAccount(Account account) {
-        final AccountJpaEntity accountJpaEntity = this.accountInfraMapper.toJpaEntity(account);
+        final AccountJpaEntity accountJpaEntity = this.accountMapper.toJpaEntity(account);
         this.accountJpaRepository.save(accountJpaEntity);
-        return this.accountInfraMapper.toDomainEntity(accountJpaEntity);
+        return this.accountMapper.toDomainEntity(accountJpaEntity);
     }
 
     @Override
@@ -44,6 +44,6 @@ public class AccountPersistenceAdapter implements CloseAccountPort, OpenAccountP
     public Account loadAccount(Long accountId) {
         final AccountJpaEntity accountJpaEntity = this.accountJpaRepository.findById(accountId)
                 .orElseThrow(() -> new IllegalArgumentException("Account not found"));
-        return this.accountInfraMapper.toDomainEntity(accountJpaEntity);
+        return this.accountMapper.toDomainEntity(accountJpaEntity);
     }
 }
